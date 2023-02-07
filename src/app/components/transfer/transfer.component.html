@@ -1,0 +1,98 @@
+<main
+  class="col-lg-3 mx-auto rounded d-flex justify-content-center align-items-center"
+  style="background-color: #607196; height: 80vh"
+>
+  <div class="shadow p-3 bg-body rounded px-py-3 col-lg-12">
+    <form [formGroup]="transferForm" (ngSubmit)="createTransfer()">
+      <div class="mb-3">
+        <label for="from_account" class="form-label">Account number</label>
+        <input
+          type="number"
+          class="form-control"
+          id="from_account"
+          aria-describedby="accountNumber"
+          value="{{ customer.account_number }}"
+          formControlName="fromAccount"
+          name="fromAccount"
+        />
+        <div *ngIf="error.code >= 100 && error.code < 200">
+          {{ error.message }}
+        </div>
+        <div
+          *ngIf="
+            fromAccount?.invalid && (fromAccount?.dirty || fromAccount?.touched)
+          "
+          class="alert"
+        >
+          <div *ngIf="fromAccount?.errors?.['required']">
+            Account is required.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="to_account" class="form-label">Transfer account</label>
+        <input
+          type="number"
+          class="form-control"
+          id="to_account"
+          aria-describedby="accountNumber"
+          formControlName="toAccount"
+          name="toAccount"
+        />
+        <div *ngIf="error.code == 200">
+          {{ error.message }}
+        </div>
+        <div
+          *ngIf="toAccount?.invalid && (toAccount?.dirty || toAccount?.touched)"
+          class="alert"
+        >
+          <div *ngIf="(toAccount?.errors)!['required']">
+            Transfer account is required.
+          </div>
+          <div *ngIf="(toAccount?.errors)!['length']">
+            Transfer account is 13 digit.
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="transfer_balance" class="form-label">Transfer amount</label>
+        <input
+          type="number"
+          class="form-control"
+          id="transfer_balance"
+          aria-describedby="accountNumber"
+          formControlName="transferAmount"
+          name="transferAmount"
+        />
+        <div *ngIf="error.code == 201">
+          {{ error.message }}
+        </div>
+        <div
+          *ngIf="
+            transferAmount?.invalid &&
+            (transferAmount?.dirty || transferAmount?.touched)
+          "
+          class="alert"
+        >
+          <div *ngIf="transferAmount?.errors?.['required']">
+            Transfer amount is required.
+          </div>
+          <div *ngIf="transferAmount?.errors?.['max']">
+            Transfer amount higher than your balance.
+          </div>
+          <div *ngIf="transferAmount?.errors?.['min']">
+            Transfer amount should be higher 0.
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!transferAmount?.valid"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</main>

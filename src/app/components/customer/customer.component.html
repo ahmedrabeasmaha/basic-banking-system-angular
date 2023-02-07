@@ -1,0 +1,22 @@
+<main class="container shadow p-3 mb-5 bg-body rounded px-py-3">
+  <table class="table text-nowrap mb-0">
+    <thead class="table-light">
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Transfer Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transfer of customer.transfers">
+        <td>{{ transfer.from_customer.account_number }}</td>
+        <td>{{ transfer.to_customer.account_number }}</td>
+        <td>{{ transfer.amount }}</td>
+        <td>
+          {{ transfer.created_at.toLocaleString() }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>

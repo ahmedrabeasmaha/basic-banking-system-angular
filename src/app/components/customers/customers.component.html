@@ -1,0 +1,71 @@
+<main class="container shadow p-3 mb-5 bg-body rounded px-py-3">
+  <div *ngIf="success" class="alert alert-success" role="alert">
+    transfer made successufly you will redirect
+  </div>
+  <table class="table text-nowrap mb-0">
+    <thead class="table-light">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Balance</th>
+        <th>Account Number</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let customer of customers
+            | paginate
+              : {
+                  itemsPerPage: itemsPerPage,
+                  currentPage: page,
+                  totalItems: totalItems
+                }
+        "
+      >
+        <td>
+          <h5 class="mb-0">
+            <a [routerLink]="['customer', customer.id]">{{ customer.name }}</a>
+          </h5>
+        </td>
+        <td>{{ customer?.email }}</td>
+        <td>{{ customer.balance }}</td>
+        <td>{{ customer.account_number }}</td>
+        <td>
+          <a
+            [routerLink]="['transfer', customer.id]"
+            class="btn btn-icon btn-sm rounded-circle texttooltip"
+            data-toggle="tooltip"
+            title="Transfer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-dollar-sign"
+            >
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path
+                d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+              ></path>
+            </svg>
+            <div id="editOne" class="d-none">
+              <span>Transfer</span>
+            </div>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+<pagination-controls
+  class="pagi container d-flex justify-content-center"
+  (pageChange)="page = $event; getCustomers()"
+></pagination-controls>
